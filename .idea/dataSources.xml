@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="database.sqlite" uuid="21d85314-8674-4113-a218-ea8178b23183">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\worklab\Property-Stat\database\database.sqlite</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="archistar_db@localhost" uuid="df81649c-52bf-4673-89e9-9dfad0ad2f77">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://localhost:3306/archistar_db</jdbc-url>
+    </data-source>
+  </component>
+</project>

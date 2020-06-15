@@ -1,0 +1,57 @@
+ $analyticsStatRecords=DB::table('analytic_types as a')
+                                ->leftjoin('property_analytics as pa', 'a.id', '=', 'pa.analytic_type_id')
+                                //->leftjoin('properties as p', 'p.id', '=', 'pa.analytic_type_id')
+                                //->where("p.$regionType", $regionName)
+                                ->leftjoin('properties as p', function($join) use($regionType, $regionName){
+                                    $join->on('p.id', '=', 'pa.analytic_type_id');
+                                    $join->on("p.$regionType", "=", DB::raw("'$regionName'"));
+                                })
+                                ->select('a.name', 'pa.analytic_type_id',DB::raw('count(pa.analytic_type_id) as countWithValue'),'pa.analytic_type_id',DB::raw('min(pa.value) as minVal'), DB::raw('max(pa.value) as maxVal'))
+                                ->groupBy('pa.analytic_type_id', 'a.name')
+                                ->get()
+                                ->toArray();
+
+
+
+
+/*
+         $sql="select a.name, statstics.* from analytic_types a, (select pa.analytic_type_id, min(pa.value) as minVal,
+                                                             max(pa.value) as maxVal
+                                                             from properties p, property_analytics pa
+                                                              where
+                                                                 p.$regionType = $regionName and
+                                                                 pa.property_id=p.id
+                                                                 group by pa.analytic_type_id) statstics
+             where a.id=statstics.analytic_type_id;";
+
+        $sql=" select a.name, count(stats.analytic_type_id) as countWithValue, count(stats.*) as totalCount  from analyticTypes a,
+                left join (select pa.analytic_type_id
+                             from properties p, properties_analytics pa
+                           where
+                                 p.$regionType = $regionName and
+                                 pa.property_id=p.id and
+                                 group by pa.analytic_id) stats
+                ON a.id = stats.analytic_type_id
+                GROUP BY a.id;";
+
+
+
+
+
+
+
+        $sql=" select a.name, stats.* from analytic_types a, (  SET @rowindex := -1;SELECT
+                                                                         tmp.analytic_type_id, AVG(tmp.value) as medianVal
+                                                                     FROM
+                                                                         (SELECT @rowindex:=@rowindex + 1 AS rowindex,
+                                                                                 pa.value AS value,
+                                                                                 pa.analytic_type_id
+                                                                          FROM  properties p, property_analytics pa
+                                                                          WHERE
+                                                                                  p.suburb = 'Ingleburn' and
+                                                                                  pa.property_id=p.id
+                                                                          ORDER BY pa.value) AS tmp
+                                                                     WHERE
+                                                                             tmp.rowindex IN (FLOOR(@rowindex / 2) , CEIL(@rowindex / 2)) ) stats
+                                                                     where a.id=stats.analytic_type_id;";*/
+
