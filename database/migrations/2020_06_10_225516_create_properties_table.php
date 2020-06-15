@@ -17,6 +17,7 @@ class CreatePropertiesTable extends Migration
             $table->id();
             //$table->unsignedInteger('DestinationSourceSystemUUID');
             $table->uuid('guid');
+            $table->timestamps();
             $table->string('suburb');
             $table->string('state');
             $table->string('country');

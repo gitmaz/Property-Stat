@@ -11,7 +11,10 @@ use Illuminate\Console\Command;
 use app\Console\Commands\TestUtils\InputMock;
 use app\Console\Commands\TestUtils\OutputMock;
 
-
+/*
+ * this class is used for data updates and also visually checking the result of queries we require for development as well as testing of this application
+ *  with simple console commands
+ */
 class DbQueryCommand extends Command
 {
     /**
@@ -25,6 +28,8 @@ class DbQueryCommand extends Command
      * php artisan DB:Q  "{'action': 'list', 'subject': 'Property'}"
      * php artisan DB:Q  "{'action': 'list', 'subject': 'AnalyticType'}"
      * php artisan DB:Q  "{'action': 'list', 'subject': 'PropertyAnalytic'}"
+     * php artisan DB:Q  "{'action': 'update', 'subject': 'Property', 'guid' : '1', 'country': 'Au', 'state': 'VIC', 'suburb': 'cbd'}"
+     * php artisan DB:Q  "{'action': 'update', 'subject': 'AnalyticType', 'name' : 'land_tax', 'units': 'AUD', 'is_numeric': 1, 'num_decimal_places': 2}"
      * php artisan DB:Q  "{'action': 'update', 'subject': 'PropertyAnalytic', 'prop_guid' : '1', 'analytic_name': 'Price', 'value': 650000}"
      * php artisan DB:Q  "{'action': 'remove', 'subject': 'Property', 'guid' : '1'}"
      *  parameters
@@ -83,6 +88,15 @@ class DbQueryCommand extends Command
                     case "flush":
                         //todo: write delete all code here
                         break;
+                    case "update":
+                        $guid = (!isset($parameters['guid']) ? null : $parameters['guid']);
+                        $country = (!isset($parameters['country']) ? null : $parameters['country']);
+                        $state = (!isset($parameters['state']) ? null : $parameters['state']);
+                        $suburb = (!isset($parameters['suburb']) ? null : $parameters['suburb']);
+
+                        $result=Property::updateAs($guid, $country, $state, $suburb);
+                        dd($result);
+                        break;
                 }
                 break;
             case "AnalyticType":
@@ -97,6 +111,15 @@ class DbQueryCommand extends Command
                         break;
                     case "flush":
                         //todo: write delete all code here
+                        break;
+                    case "update":
+                        $name = (!isset($parameters['name']) ? null : $parameters['name']);
+                        $units = (!isset($parameters['units']) ? null : $parameters['units']);
+                        $isNumeric = (!isset($parameters['is_numeric']) ? null : $parameters['is_numeric']);
+                        $numDecimalPlaces = (!isset($parameters['num_decimal_places']) ? null : $parameters['num_decimal_places']);
+
+                        $result=AnalyticType::updateAs($name, $units, $isNumeric, $numDecimalPlaces);
+                        dd($result);
                         break;
                 }
                 break;

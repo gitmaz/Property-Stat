@@ -31,8 +31,8 @@ class AnalyticType extends Model
 
         $analyticType->name = $name;
         $analyticType->units = $units;
-        $analyticType->isNumeric = $isNumeric;
-        $analyticType->numDecimalPlaces = $numDecimalPlaces;
+        $analyticType->is_numeric = $isNumeric;
+        $analyticType->num_decimal_places = $numDecimalPlaces;
 
         $analyticType->save();
 

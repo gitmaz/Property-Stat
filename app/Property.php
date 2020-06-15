@@ -118,19 +118,36 @@ class Property extends Model
      */
     public static function updateAs($guid, $country, $state, $suburb)
     {
-        $analyticType = self::where("guid", $guid)
-            ->first();
-
-        if ($analyticType == null) {
-            $analyticType = new AnalyticType();
+        if ($guid === null) {
+            return ["status" => "error", "message" => "passing  guid key value is mandatory"];
         }
 
-        $analyticType->name = $guid;
-        $analyticType->country = $country;
-        $analyticType->state = $state;
-        $analyticType->suburb = $suburb;
+        if ($country === null) {
+            return ["status" => "error", "message" => "passing  country key value is mandatory"];
+        }
 
-        $analyticType->save();
+        if ($state === null) {
+            return ["status" => "error", "message" => "passing  state key value is mandatory"];
+        }
+
+        if ($suburb === null) {
+            return ["status" => "error", "message" => "passing  suburb key value is mandatory"];
+        }
+
+
+        $property = self::where("guid", $guid)
+            ->first();
+
+        if ($property == null) {
+            $property = new Property();
+        }
+
+        $property->guid = $guid;
+        $property->country = $country;
+        $property->state = $state;
+        $property->suburb = $suburb;
+
+        $property->save();
 
         return ["status" => "success", "message" => "Property with guid '$guid' updated!"];
     }
