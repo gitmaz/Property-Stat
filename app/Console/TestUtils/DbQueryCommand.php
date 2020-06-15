@@ -45,7 +45,8 @@ class DbQueryCommand extends Command
      *
      * @var string
      */
-    protected $description = 'This Command is used as a utility to directly change WP websites data through direct database connection (not through Woo).';
+    protected $description = 'This Command is used as a utility to directly add\change data for properties and analytic types as well as assigning new analytic values to properties.
+    you can also calculate statistics on properties here. Please use comment on the DbQueryCommands for typical usage syntax.';
 
     /**
      * Execute the console command.
