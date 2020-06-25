@@ -209,7 +209,7 @@ class PropertyAnalytic extends Model
             })
             ->first();
 
-        dd($propertyAnalytic->toArray());
+        //dd($propertyAnalytic->toArray());
         if ($propertyAnalytic != null) {
             $propertyAnalytic->value = $value;
             $propertyAnalytic->save();
