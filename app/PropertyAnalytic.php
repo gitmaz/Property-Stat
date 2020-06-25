@@ -36,7 +36,7 @@ class PropertyAnalytic extends Model
     public static function getStatisticsReportOnRegion($commaSeparatedRegionName, $propertiesCountTotal)
     {
 
-        $regionSelectorPhraseNoAlias = RegionSelectorBuilder::getSelectorCached($commaSeparatedRegionName, true);
+        $regionSelectorPhrase = RegionSelectorBuilder::getSelectorCached($commaSeparatedRegionName, true);
         /* sample sql for calculating min, max
          select a.name, count(pa.analytic_type_id) as countWithValue, pa.analytic_type_id, min(pa.value) as minVal, max(pa.value) as maxVal
                         from analytic_types a
@@ -52,7 +52,7 @@ class PropertyAnalytic extends Model
         $analyticsStatRecords = DB::table('analytic_types as a')
             ->leftjoin('property_analytics as pa', 'a.id', '=', 'pa.analytic_type_id')
             ->leftjoin('properties as p', 'p.id', '=', 'pa.property_id')
-            ->whereRaw("(($regionSelectorPhraseNoAlias) OR p.suburb is null)")
+            ->whereRaw("(($regionSelectorPhrase) OR p.suburb is null)")
             ->select('a.name', 'pa.analytic_type_id', DB::raw('count(pa.analytic_type_id) as countWithValue'), 'pa.analytic_type_id', DB::raw('min(pa.value) as minVal'), DB::raw('max(pa.value) as maxVal'))
             ->groupBy('a.name', 'pa.analytic_type_id')
             ->get()
@@ -80,7 +80,7 @@ class PropertyAnalytic extends Model
         $analyticsRecords = DB::table('analytic_types as a')
             ->leftjoin('property_analytics as pa', 'a.id', '=', 'pa.analytic_type_id')
             ->leftjoin('properties as p', 'p.id', '=', 'pa.property_id')
-            ->whereRaw("(($regionSelectorPhraseNoAlias) OR p.suburb is null)")
+            ->whereRaw("(($regionSelectorPhrase) OR p.suburb is null)")
             ->select('a.name', 'pa.id', 'pa.value')
             ->orderBy(DB::raw('pa.analytic_type_id, pa.value'))
             ->get()
